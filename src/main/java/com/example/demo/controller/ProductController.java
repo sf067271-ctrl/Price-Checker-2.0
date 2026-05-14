@@ -24,7 +24,8 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
 
-        if (productRepository.existsByQrCode(product.getQrCode())) {
+        if (productRepository.existsByQrCode(product.getQrCode())
+                || productRepository.existsByBarcode(product.getBarcode())) {
 
             return ResponseEntity
                     .badRequest()
@@ -68,5 +69,24 @@ public class ProductController {
     public List<Product> getAllProducts() {
 
         return service.getAllProducts();
+
+    }
+
+    // SEARCH PRODUCT BY NAME OR BARCODE
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProduct(@RequestParam String query) {
+
+        // Try barcode first
+        return productRepository.findByBarcode(query)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+
+                // If barcode not found, search by name
+                .orElseGet(() -> {
+
+                    List<Product> products =
+                            productRepository.findByNameContainingIgnoreCase(query);
+
+                    return ResponseEntity.ok(products);
+                });
     }
 }

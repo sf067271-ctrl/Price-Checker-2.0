@@ -14,6 +14,9 @@ public class Product {
     @Column(unique = true)
     private String qrCode;
 
+    @Column(unique = true)
+    private String barcode;
+
     private String name;
 
     private double price;
@@ -32,6 +35,14 @@ public class Product {
 
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public String getName() {
