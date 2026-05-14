@@ -20,16 +20,6 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    // Loading Screen
-    @RestController
-    public class HealthController {
-
-        @GetMapping("/health")
-        public String health() {
-            return "OK";
-        }
-    }
-
     // ADD PRODUCT
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
